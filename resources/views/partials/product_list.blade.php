@@ -12,12 +12,11 @@
         @php $grandTotal = 0; @endphp
         @foreach ($products as $product)
         <tr>
-            <td>{{ $product['productName'] }}</td>
-            <td>{{ $product['quantity'] }}</td>
-            <td>{{ $product['price'] }}</td>
-            <td>{{ $product['datetime'] }}</td>
-            <td>{{ $product['totalValue'] }}</td>
-            @php $grandTotal += $product['totalValue']; @endphp
+            <td>{{ $product['productName'] ?? 'Default Product' }}</td>
+            <td>{{ $product['quantity'] ?? '0' }}</td>
+            <td>{{ $product['price'] ?? '0.00' }}</td>
+            <td>{{ $product['datetime'] ?? now()->toDateTimeString() }}</td>
+            <td>{{ $product['totalValue'] ?? '0.00' }}</td>
         </tr>
         @endforeach
         <tr>

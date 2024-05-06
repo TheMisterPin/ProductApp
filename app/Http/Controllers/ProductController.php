@@ -9,25 +9,28 @@ class ProductController extends Controller
 {
     public function store(Request $request)
     {
-        $filePath = storage_path("app/public/products.json");
+        $filePath = storage_path('app/public/products.json');
 
-        $products =[];
-        if (file_exists($filePath)) {
-        $json = file_get_contents($filePath);
-        $products[] = json_decode($json, true);
+        $products = [];
+
+        if (file_exists($filePath) && filesize($filePath) > 0) {
+            $json = file_get_contents($filePath);
+            $products = json_decode($json, true);
+        }
+
+        $newProduct = [
+            'productName' => $request->input('productName'),
+            'quantity' => (int) $request->input('quantity'),
+            'price' => (float) $request->input('price'),
+            'datetime' => Carbon::now()->toDateTimeString(),
+            'totalValue' => (int) $request->input('quantity') * (float) $request->input('price')
+        ];
+
+        $products[] = $newProduct;
+
+        file_put_contents($filePath, json_encode($products, JSON_PRETTY_PRINT));
+
+ 
+        return view('partials.product_list', ['products' => $products])->render();
     }
-    $newProduct=[
-        'productName' => $request->input('productName'),
-        'quantity'=> $request->input('quantity'),
-        'price'=> $request->input('price'),
-        'datetime'=> Carbon::now()->toDateString(),
-        'totalValue'=>(int) $request->input('quantity') * (float) $request -> input('price'),
-    ];
-
-    $products[] = $newProduct;
-
-    file_put_contents($filePath, json_encode($products, JSON_PRETTY_PRINT));
-    
-    return view('partials.product_list',['products'=> $products])->render();
-
-}}
+}
