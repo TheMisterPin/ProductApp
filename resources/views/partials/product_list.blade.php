@@ -9,7 +9,6 @@
         </tr>
     </thead>
     <tbody>
-        @php $grandTotal = 0; @endphp
         @foreach ($products as $product)
         <tr>
             <td>{{ $product['productName'] ?? 'Default Product' }}</td>
@@ -19,9 +18,5 @@
             <td>{{ $product['totalValue'] ?? '0.00' }}</td>
         </tr>
         @endforeach
-        <tr>
-            <td colspan="4" class="text-end"><strong>Grand Total:</strong></td>
-            <td><strong>{{ $grandTotal }}</strong></td>
-        </tr>
     </tbody>
 </table>
